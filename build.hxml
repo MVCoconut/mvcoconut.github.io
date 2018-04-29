@@ -1,0 +1,4 @@
+-cp src
+-lib lessie
+-D lessieOutput=./assets/styles.css
+--run Build
