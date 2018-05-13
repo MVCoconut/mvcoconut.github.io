@@ -1,0 +1,6 @@
+{
+  "name": "mvcoconut.github.io",
+  "dependencies": {
+    "lix": "^15.1.1"
+  }
+}
