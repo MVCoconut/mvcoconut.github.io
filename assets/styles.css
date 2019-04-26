@@ -122,6 +122,7 @@ main h1.more {
 
 main section {
   max-width: 900px;
+  padding: 0 1em 0 1em;
   margin: auto;
 }
 
