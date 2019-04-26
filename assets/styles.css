@@ -107,13 +107,30 @@ header h1:before {
   right: 35px;
   top: 70px;
 }
+
 header h3 {
   color: white;
   font-weight: 900;
   font-size: 20px;
   margin-left: 175px;
 }
-main h1 {
+
+main h1.more {
   text-align: center;
-  padding: 150px 0;
+  padding: 50px 0;
+}
+
+main section {
+  max-width: 900px;
+  margin: auto;
+}
+
+main section h2 {
+  margin: 1em 0 1em 0;
+}
+
+#demo {
+  margin-top: 1em;
+  border: dashed 2px grey;
+  padding: 1em;
 }

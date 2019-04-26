@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Coconut</title>
-    <meta name="description" content="Coconut">
-    <link rel="shortcut icon" href="/assets/coconut.png" type="image/png">
-    <link rel="stylesheet" href="/assets/styles.css">
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,400,700" rel="stylesheet">
+    <meta name="description" content="Coconut" />
+    <link rel="shortcut icon" href="/assets/coconut.png" type="image/png" />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,400,700"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/themes/prism.min.css">
+
   </head>
   <body>
     <nav>
       &nbsp;
       <ul class="community">
-        <a href="https://gitter.im/MVCoconut/Lobby"><span>Join gitter chat</span></a>
-        <a href="https://github.com/MVCoconut/"><span>Github</span></a>    
+        <a href="https://gitter.im/MVCoconut/Lobby"
+          ><span>Join gitter chat</span></a
+        >
+        <a href="https://github.com/MVCoconut/"><span>Github</span></a>
       </ul>
     </nav>
     <header>
@@ -21,7 +26,35 @@
       <h3>UI programming for the relaxed.</h3>
     </header>
     <main>
-      <h1>More soon ...</h1>
+      <section>
+        <h2>Example Code:</h2>
+        <pre><code class="language-haxe">// App.hx
+import js.Browser.*;
+import coconut.ui.View;
+import coconut.Ui.hxx;
+using coconut.ui.Renderer;
+
+class App extends View {
+  
+  static function main() {
+    document.getElementById('demo').mount(&lt;App/&gt;);
+  }
+  
+  @:state var count:Int = 0;
+  
+  function render()
+    &lt;button onclick={() -&gt; count++}&gt;
+      Clicked Here! ({count})
+    &lt;/button&gt;
+  ;
+}</code></pre>
+        <h2>Live Demo:</h2>
+        <div id="demo"></div>
+      </section>
+      <h1 class="more">More soon ...</h1>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/components/prism-haxe.min.js"></script>
+    <script src="/demo/bin/index.js"></script>
   </body>
-<html>
+</html>
