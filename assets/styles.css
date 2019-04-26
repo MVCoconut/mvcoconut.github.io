@@ -131,6 +131,7 @@ main section {
 
 main section h2 {
   margin: 1em 0 1em 0;
+  font-weight: 400;
 }
 
 #demo {
