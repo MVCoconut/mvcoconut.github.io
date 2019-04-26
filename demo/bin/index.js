@@ -48,9 +48,7 @@ tink_state__$Observable_Observable_$Impl_$.get_value = function(this1) {
 tink_state__$Observable_Observable_$Impl_$.map = function(this1,f) {
 	return tink_state__$Observable_Observable_$Impl_$.create(function() {
 		var m = tink_state__$Observable_Observable_$Impl_$.measure(this1);
-		var this2 = new tink_core_MPair(f(m.a),m.b);
-		var this3 = this2;
-		return this3;
+		return new tink_core_MPair(f(m.a),m.b);
 	});
 };
 tink_state__$Observable_Observable_$Impl_$.measure = function(this1) {
@@ -59,8 +57,7 @@ tink_state__$Observable_Observable_$Impl_$.measure = function(this1) {
 	var p = this1.poll();
 	var _g = ((before) instanceof tink_state__$Observable_AutoObservable) ? before : null;
 	if(_g != null) {
-		var v = _g;
-		v.subscribe(p.b);
+		_g.subscribe(p.b);
 	}
 	tink_state__$Observable_Observable_$Impl_$.stack.pop();
 	return p;
@@ -70,8 +67,7 @@ tink_state__$Observable_Observable_$Impl_$.schedule = function(f) {
 	if(_g == null) {
 		f();
 	} else {
-		var v = _g;
-		v.push(f);
+		_g.push(f);
 		tink_state__$Observable_Observable_$Impl_$.scheduleUpdate();
 	}
 };
@@ -100,11 +96,7 @@ tink_state__$Observable_Observable_$Impl_$.updatePending = function(maxSeconds) 
 		var old = tink_state__$Observable_Observable_$Impl_$.scheduled;
 		tink_state__$Observable_Observable_$Impl_$.scheduled = [];
 		var _g = 0;
-		while(_g < old.length) {
-			var o = old[_g];
-			++_g;
-			o();
-		}
+		while(_g < old.length) old[_g++]();
 		if(!(tink_state__$Observable_Observable_$Impl_$.scheduled.length > 0 && Date.now() / 1000 < end)) {
 			break;
 		}
@@ -185,17 +177,15 @@ var coconut_diffing_Widget = function(rendered,mounted,updated,unmounting) {
 		if(r == null) {
 			return _gthis._coco_differ.placeholder(_gthis);
 		} else if(r._hx_index == 2) {
-			var nodes = r.nodes;
 			var isEmpty = null;
-			isEmpty = function(nodes1) {
+			isEmpty = function(nodes) {
 				var _g = 0;
-				while(_g < nodes1.length) {
-					var n = nodes1[_g];
+				while(_g < nodes.length) {
+					var n = nodes[_g];
 					++_g;
 					if(n != null) {
 						if(n._hx_index == 2) {
-							var nodes2 = n.nodes;
-							if(!isEmpty(nodes2)) {
+							if(!isEmpty(n.nodes)) {
 								return false;
 							}
 						} else {
@@ -205,7 +195,7 @@ var coconut_diffing_Widget = function(rendered,mounted,updated,unmounting) {
 				}
 				return true;
 			};
-			if(isEmpty(nodes)) {
+			if(isEmpty(r.nodes)) {
 				return _gthis._coco_differ.placeholder(_gthis);
 			} else {
 				return r;
@@ -261,11 +251,7 @@ coconut_diffing_Widget.prototype = {
 		if(this._coco_pendingChildren.length > 0) {
 			var _g = 0;
 			var _g1 = this._coco_pendingChildren.splice(0,this._coco_pendingChildren.length);
-			while(_g < _g1.length) {
-				var c = _g1[_g];
-				++_g;
-				c._coco_update(later);
-			}
+			while(_g < _g1.length) _g1[_g++]._coco_update(later);
 		}
 	}
 	,_coco_performUpdate: function(later) {
@@ -314,25 +300,15 @@ coconut_diffing_Widget.prototype = {
 			var _this = this._coco_differ;
 			switch(c._hx_index) {
 			case 0:
-				var _g4 = c.ref;
-				var _g2 = c.a;
-				var real = c.r;
-				var _g3 = _this.unsetLastRender(real);
-				if(_g3 != null) {
-					var _g11 = _g3.byType;
-					var children = _g3.childList;
-					var _g5 = 0;
-					while(_g5 < children.length) {
-						var c1 = children[_g5];
-						++_g5;
-						_this.destroyRender(c1);
-					}
+				var _g2 = _this.unsetLastRender(c.r);
+				if(_g2 != null) {
+					var _g21 = _g2.childList;
+					var _g3 = 0;
+					while(_g3 < _g21.length) _this.destroyRender(_g21[_g3++]);
 				}
 				break;
 			case 1:
-				var _g12 = c.ref;
-				var w = c.w;
-				w._coco_teardown();
+				c.w._coco_teardown();
 				break;
 			}
 		}
@@ -357,7 +333,7 @@ var coconut_ui_View = function(render,shouldUpdate,track,beforeRerender,mounted,
 	var hasBeforeRerender = beforeRerender != null;
 	var hasUpdated = updated != null;
 	var lastRev = tink_state__$State_State_$Impl_$.get_value(this._coco_revision);
-	var renderView = function() {
+	coconut_diffing_Widget.call(this,tink_state__$Observable_Observable_$Impl_$.auto({ f : function() {
 		var curRev = tink_state__$State_State_$Impl_$.get_value(_gthis._coco_revision);
 		if(track != null) {
 			track();
@@ -377,11 +353,7 @@ var coconut_ui_View = function(render,shouldUpdate,track,beforeRerender,mounted,
 					if(hasCallbacks) {
 						var _g = 0;
 						var _g1 = _gthis.__bc.splice(0,_gthis.__bc.length);
-						while(_g < _g1.length) {
-							var c = _g1[_g];
-							++_g;
-							tink_core__$Callback_Callback_$Impl_$.invoke(c,false);
-						}
+						while(_g < _g1.length) tink_core__$Callback_Callback_$Impl_$.invoke(_g1[_g++],false);
 					}
 				});
 			}
@@ -389,9 +361,7 @@ var coconut_ui_View = function(render,shouldUpdate,track,beforeRerender,mounted,
 		lastRev = curRev;
 		last = render();
 		return last;
-	};
-	var this1 = { f : renderView};
-	coconut_diffing_Widget.call(this,tink_state__$Observable_Observable_$Impl_$.auto(this1),mounted,function() {
+	}}),mounted,function() {
 		var hasCallbacks1 = _gthis.__au.length > 0;
 		if(hasUpdated || hasCallbacks1) {
 			tink_state__$Observable_Observable_$Impl_$.untracked(function() {
@@ -401,11 +371,7 @@ var coconut_ui_View = function(render,shouldUpdate,track,beforeRerender,mounted,
 				if(hasCallbacks1) {
 					var _g2 = 0;
 					var _g11 = _gthis.__au.splice(0,_gthis.__au.length);
-					while(_g2 < _g11.length) {
-						var c1 = _g11[_g2];
-						++_g2;
-						tink_core__$Callback_Callback_$Impl_$.invoke(c1,tink_core_Noise.Noise);
-					}
+					while(_g2 < _g11.length) tink_core__$Callback_Callback_$Impl_$.invoke(_g11[_g2++],tink_core_Noise.Noise);
 				}
 			});
 		}
@@ -430,35 +396,26 @@ coconut_ui_View.prototype = $extend(coconut_diffing_Widget.prototype,{
 		}
 		var _g2 = 0;
 		var _g3 = this.__bc.splice(0,this.__bu.length);
-		while(_g2 < _g3.length) {
-			var c1 = _g3[_g2];
-			++_g2;
-			tink_core__$Callback_Callback_$Impl_$.invoke(c1,true);
-		}
+		while(_g2 < _g3.length) tink_core__$Callback_Callback_$Impl_$.invoke(_g3[_g2++],true);
 	}
 });
 var App = function(__coco_data_) {
 	this.__tink_defaults0 = { };
 	this.__slots = { };
-	var this1 = new tink_state__$State_SimpleState(0,null,null);
-	this.__coco_count = this1;
-	this.__initAttributes(__coco_data_);
-	var snapshot = null;
+	this.__coco_count = new tink_state__$State_SimpleState(0,null,null);
 	coconut_ui_View.call(this,$bind(this,this.render),null,null,null,null,null);
 };
 App.__name__ = true;
 App.main = function() {
 	var tmp = window.document.getElementById("demo");
 	var __r = [];
-	var __ret = { };
-	__r.push(App.fromHxx(__ret));
+	__r.push(App.fromHxx({ }));
 	coconut_ui_Renderer.mount(tmp,__r[0]);
 };
 App.fromHxx = function(attributes) {
 	return coconut_vdom__$Child_Child_$Impl_$.widget("App",attributes.key,attributes.ref,attributes,{ create : function(__coco_data_) {
 		return new App(__coco_data_);
 	}, update : function(attr,v) {
-		v.__initAttributes(attr);
 	}});
 };
 App.__super__ = coconut_ui_View;
@@ -469,8 +426,7 @@ App.prototype = $extend(coconut_ui_View.prototype,{
 		var __ret = { onclick : tink_core__$Callback_Callback_$Impl_$.fromNiladic(function() {
 			var _g = _gthis;
 			var _g1 = tink_state__$State_State_$Impl_$.get_value(_g.__coco_count);
-			var param = _g1 + 1;
-			_g.__coco_count.set(param);
+			_g.__coco_count.set(_g1 + 1);
 			return _g1;
 		})};
 		var __r1 = [];
@@ -479,8 +435,6 @@ App.prototype = $extend(coconut_ui_View.prototype,{
 		__r1.push(coconut_vdom__$Child_Child_$Impl_$.ofText(")"));
 		__r.push(coconut_vdom__$Child_Child_$Impl_$.element("button",__ret,__r1));
 		return __r[0];
-	}
-	,__initAttributes: function(attributes) {
 	}
 });
 var HxOverrides = function() { };
@@ -538,16 +492,14 @@ coconut_diffing_Differ.prototype = {
 					if(n != null) {
 						switch(n._hx_index) {
 						case 0:
-							var n1 = n.n;
-							childList.push(coconut_diffing_RNode.RNative(null,n1,null));
+							childList.push(coconut_diffing_RNode.RNative(null,n.n,null));
 							break;
 						case 1:
 							var w = n.w;
 							$with.widgetInst(w);
-							var r = w;
 							var key = coconut_diffing__$Key_Key_$Impl_$.ofObject(w);
 							var type = coconut_diffing_Differ.WIDGET_INST;
-							var n2 = coconut_diffing_RNode.RWidget(w,null);
+							var n1 = coconut_diffing_RNode.RWidget(w,null);
 							var registry;
 							var _g1 = __map_reserved[type] != null ? byType.getReserved(type) : byType.h[type];
 							if(_g1 == null) {
@@ -559,98 +511,88 @@ coconut_diffing_Differ.prototype = {
 								}
 								registry = v;
 							} else {
-								var v1 = _g1;
-								registry = v1;
+								registry = _g1;
 							}
 							if(key == null) {
-								registry.put(n2);
+								registry.put(n1);
 							} else {
-								var k = key;
-								registry.set(k,n2);
+								registry.set(key,n1);
+							}
+							childList.push(n1);
+							break;
+						case 2:
+							process(n.nodes);
+							break;
+						case 3:
+							var _g8 = n.key;
+							var _g7 = n.ref;
+							var _g6 = n.type;
+							var attr = n.a;
+							var real = $with.native(_g6,_g8,attr,n.children);
+							var ref = [_g7];
+							var n2 = coconut_diffing_RNode.RNative(attr,real,_g7);
+							var registry1;
+							var _g2 = __map_reserved[_g6] != null ? byType.getReserved(_g6) : byType.h[_g6];
+							if(_g2 == null) {
+								var v1 = new coconut_diffing_TypeRegistry();
+								if(__map_reserved[_g6] != null) {
+									byType.setReserved(_g6,v1);
+								} else {
+									byType.h[_g6] = v1;
+								}
+								registry1 = v1;
+							} else {
+								registry1 = _g2;
+							}
+							if(ref[0] != null) {
+								var process1 = (function(ref1,r) {
+									return function() {
+										ref1[0](r[0]);
+									};
+								})(ref,[real]);
+								later(process1);
+							}
+							if(_g8 == null) {
+								registry1.put(n2);
+							} else {
+								registry1.set(_g8,n2);
 							}
 							childList.push(n2);
 							break;
-						case 2:
-							var nodes2 = n.nodes;
-							process(nodes2);
-							break;
-						case 3:
-							var children = n.children;
-							var attr = n.a;
-							var key1 = n.key;
-							var ref = n.ref;
-							var type1 = n.type;
-							var real = $with.native(type1,key1,attr,children);
-							var ref1 = [ref];
-							var n3 = coconut_diffing_RNode.RNative(attr,real,ref);
-							var registry1;
-							var _g2 = __map_reserved[type1] != null ? byType.getReserved(type1) : byType.h[type1];
-							if(_g2 == null) {
-								var v2 = new coconut_diffing_TypeRegistry();
-								if(__map_reserved[type1] != null) {
-									byType.setReserved(type1,v2);
-								} else {
-									byType.h[type1] = v2;
-								}
-								registry1 = v2;
-							} else {
-								var v3 = _g2;
-								registry1 = v3;
-							}
-							if(ref1[0] != null) {
-								var process1 = (function(ref2,r1) {
-									return function() {
-										ref2[0](r1[0]);
-									};
-								})(ref1,[real]);
-								later(process1);
-							}
-							if(key1 == null) {
-								registry1.put(n3);
-							} else {
-								var k1 = key1;
-								registry1.set(k1,n3);
-							}
-							childList.push(n3);
-							break;
 						case 4:
-							var t = n.t;
-							var a = n.a;
-							var key2 = n.key;
-							var ref3 = n.ref;
-							var type2 = n.type;
-							var w1 = $with.widget(type2,key2,a,t);
-							var ref4 = [ref3];
-							var n4 = coconut_diffing_RNode.RWidget(w1,ref3);
+							var _g3 = n.key;
+							var _g21 = n.ref;
+							var _g11 = n.type;
+							var w1 = $with.widget(_g11,_g3,n.a,n.t);
+							var ref2 = [_g21];
+							var n3 = coconut_diffing_RNode.RWidget(w1,_g21);
 							var registry2;
-							var _g3 = __map_reserved[type2] != null ? byType.getReserved(type2) : byType.h[type2];
-							if(_g3 == null) {
-								var v4 = new coconut_diffing_TypeRegistry();
-								if(__map_reserved[type2] != null) {
-									byType.setReserved(type2,v4);
+							var _g4 = __map_reserved[_g11] != null ? byType.getReserved(_g11) : byType.h[_g11];
+							if(_g4 == null) {
+								var v2 = new coconut_diffing_TypeRegistry();
+								if(__map_reserved[_g11] != null) {
+									byType.setReserved(_g11,v2);
 								} else {
-									byType.h[type2] = v4;
+									byType.h[_g11] = v2;
 								}
-								registry2 = v4;
+								registry2 = v2;
 							} else {
-								var v5 = _g3;
-								registry2 = v5;
+								registry2 = _g4;
 							}
-							if(ref4[0] != null) {
-								var process2 = (function(ref5,r2) {
+							if(ref2[0] != null) {
+								var process2 = (function(ref3,r1) {
 									return function() {
-										ref5[0](r2[0]);
+										ref3[0](r1[0]);
 									};
-								})(ref4,[w1]);
+								})(ref2,[w1]);
 								later(process2);
 							}
-							if(key2 == null) {
-								registry2.put(n4);
+							if(_g3 == null) {
+								registry2.put(n3);
 							} else {
-								var k2 = key2;
-								registry2.set(k2,n4);
+								registry2.set(_g3,n3);
 							}
-							childList.push(n4);
+							childList.push(n3);
 							break;
 						}
 					}
@@ -693,18 +635,15 @@ coconut_diffing_Differ.prototype = {
 			++_g;
 			switch(node._hx_index) {
 			case 0:
-				var _g3 = node.r;
-				var _g2 = node.a;
-				var f = node.ref;
-				if(f != null) {
-					f(null);
+				var _g4 = node.ref;
+				if(_g4 != null) {
+					_g4(null);
 				}
 				break;
 			case 1:
-				var _g4 = node.w;
-				var f1 = node.ref;
-				if(f1 != null) {
-					f1(null);
+				var _g11 = node.ref;
+				if(_g11 != null) {
+					_g11(null);
 				}
 				break;
 			default:
@@ -712,11 +651,11 @@ coconut_diffing_Differ.prototype = {
 		}
 		var previous = function(t,key) {
 			var _this = before.byType;
-			var _g21 = __map_reserved[t] != null ? _this.getReserved(t) : _this.h[t];
-			if(_g21 == null) {
+			var _g2 = __map_reserved[t] != null ? _this.getReserved(t) : _this.h[t];
+			if(_g2 == null) {
 				return null;
 			} else {
-				var v = _g21;
+				var v = _g2;
 				if(key == null) {
 					return v.pull();
 				} else {
@@ -725,38 +664,31 @@ coconut_diffing_Differ.prototype = {
 			}
 		};
 		var native = function(type,key1,nuAttr,nuChildren) {
-			var _g22 = previous(type,key1);
-			if(_g22 == null) {
+			var _g21 = previous(type,key1);
+			if(_g21 == null) {
 				return _gthis.createNative(type,nuAttr,nuChildren,parent,later);
-			} else if(_g22._hx_index == 0) {
-				var _g5 = _g22.ref;
-				var r = _g22.r;
-				var oldAttr = _g22.a;
-				return _gthis.updateNative(r,nuAttr,nuChildren,oldAttr,parent,later);
+			} else if(_g21._hx_index == 0) {
+				return _gthis.updateNative(_g21.r,nuAttr,nuChildren,_g21.a,parent,later);
 			} else {
 				throw new js__$Boot_HaxeError("assert");
 			}
 		};
 		var after = this._renderAll(nodes,later,parent,{ native : native, widget : function(type1,key2,attr,widgetType) {
-			var _g23 = previous(type1,key2);
-			if(_g23 == null) {
+			var _g22 = previous(type1,key2);
+			if(_g22 == null) {
 				return _gthis.createWidget(widgetType,attr,parent,later);
-			} else if(_g23._hx_index == 1) {
-				var _g41 = _g23.ref;
-				var w = _g23.w;
-				widgetType.update(attr,w);
-				return w;
+			} else if(_g22._hx_index == 1) {
+				var _g3 = _g22.w;
+				widgetType.update(attr,_g3);
+				return _g3;
 			} else {
 				throw new js__$Boot_HaxeError("assert");
 			}
-		}, widgetInst : function(w1) {
-			var _g24 = previous(coconut_diffing_Differ.WIDGET_INST,coconut_diffing__$Key_Key_$Impl_$.ofObject(w1));
-			if(_g24 == null) {
-				_gthis.mountInstance(w1,parent,later);
-			} else if(_g24._hx_index == 1) {
-				var _g42 = _g24.ref;
-				var w2 = _g24.w;
-			} else {
+		}, widgetInst : function(w) {
+			var _g23 = previous(coconut_diffing_Differ.WIDGET_INST,coconut_diffing__$Key_Key_$Impl_$.ofObject(w));
+			if(_g23 == null) {
+				_gthis.mountInstance(w,parent,later);
+			} else if(_g23._hx_index != 1) {
 				throw new js__$Boot_HaxeError("assert");
 			}
 			return;
@@ -765,23 +697,16 @@ coconut_diffing_Differ.prototype = {
 		var registry = new haxe_ds__$StringMap_StringMapIterator(_this1,_this1.arrayKeys());
 		while(registry.hasNext()) {
 			var registry1 = registry.next();
-			var f2 = $bind(this,this.destroyRender);
+			var f = $bind(this,this.destroyRender);
 			if(registry1.keyed != null) {
 				var _this2 = registry1.keyed;
 				var v1 = new haxe_ds__$StringMap_StringMapIterator(_this2,_this2.arrayKeys());
-				while(v1.hasNext()) {
-					var v2 = v1.next();
-					f2(v2);
-				}
+				while(v1.hasNext()) f(v1.next());
 			}
 			if(registry1.unkeyed != null) {
-				var _g6 = 0;
-				var _g11 = registry1.unkeyed;
-				while(_g6 < _g11.length) {
-					var v3 = _g11[_g6];
-					++_g6;
-					f2(v3);
-				}
+				var _g5 = 0;
+				var _g12 = registry1.unkeyed;
+				while(_g5 < _g12.length) f(_g12[_g5++]);
 			}
 		}
 		return after;
@@ -789,37 +714,21 @@ coconut_diffing_Differ.prototype = {
 	,destroyRender: function(r) {
 		switch(r._hx_index) {
 		case 0:
-			var _g4 = r.ref;
-			var _g2 = r.a;
-			var real = r.r;
-			var _g = this.unsetLastRender(real);
+			var _g = this.unsetLastRender(r.r);
 			if(_g != null) {
-				var _g1 = _g.byType;
-				var children = _g.childList;
-				var _g3 = 0;
-				while(_g3 < children.length) {
-					var c = children[_g3];
-					++_g3;
-					this.destroyRender(c);
-				}
+				var _g2 = _g.childList;
+				var _g1 = 0;
+				while(_g1 < _g2.length) this.destroyRender(_g2[_g1++]);
 			}
 			break;
 		case 1:
-			var _g11 = r.ref;
-			var w = r.w;
-			w._coco_teardown();
+			r.w._coco_teardown();
 			break;
 		}
 	}
 	,_render: function(nodes,target,parent,later) {
-		var ret;
 		var _g = this.getLastRender(target);
-		if(_g == null) {
-			ret = this.renderAll(nodes,parent,later);
-		} else {
-			var v = _g;
-			ret = this.updateAll(v,nodes,parent,later);
-		}
+		var ret = _g == null ? this.renderAll(nodes,parent,later) : this.updateAll(_g,nodes,parent,later);
 		this.setLastRender(target,ret);
 		this.setChildren(target,ret.flatten(later));
 		return ret;
@@ -841,11 +750,7 @@ coconut_diffing_Differ.prototype = {
 			}
 		});
 		var _g = 0;
-		while(_g < after.length) {
-			var f1 = after[_g];
-			++_g;
-			f1();
-		}
+		while(_g < after.length) after[_g++]();
 		return ret;
 	}
 	,unsetLastRender: function(target) {
@@ -918,15 +823,10 @@ coconut_diffing_Rendered.prototype = {
 				++_g;
 				switch(c._hx_index) {
 				case 0:
-					var _g4 = c.ref;
-					var _g2 = c.a;
-					var r = c.r;
-					f(r);
+					f(c.r);
 					break;
 				case 1:
-					var _g1 = c.ref;
-					var w = c.w;
-					rec(w._coco_getRender(later).childList);
+					rec(c.w._coco_getRender(later).childList);
 					break;
 				}
 			}
@@ -948,16 +848,14 @@ coconut_diffing_TypeRegistry.prototype = {
 			if(_g == null) {
 				return null;
 			} else {
-				var v = _g;
 				this1.remove(key);
-				return v;
+				return _g;
 			}
 		}
 	}
 	,set: function(key,value) {
 		if(this.keyed == null) {
-			var this1 = new haxe_ds_StringMap();
-			this.keyed = this1;
+			this.keyed = new haxe_ds_StringMap();
 		}
 		var _this = this.keyed;
 		if(__map_reserved[key] != null) {
@@ -999,8 +897,7 @@ coconut_vdom__$Child_Child_$Impl_$.ofInt = function(i) {
 	return coconut_vdom__$Child_Child_$Impl_$.ofText(i == null ? "null" : "" + i);
 };
 coconut_vdom__$Child_Child_$Impl_$.widget = function(name,key,ref,attr,type) {
-	var this1 = coconut_diffing_VNodeData.VWidget(name,ref,key,attr,type);
-	return this1;
+	return coconut_diffing_VNodeData.VWidget(name,ref,key,attr,type);
 };
 var coconut_ui__$Renderer_DomDiffer = function() {
 };
@@ -1039,7 +936,7 @@ coconut_ui__$Renderer_DomDiffer.prototype = $extend(coconut_diffing_Differ.proto
 			var _g1 = pos;
 			var _g2 = e.childNodes.length;
 			while(_g1 < _g2) {
-				var i = _g1++;
+				++_g1;
 				e.removeChild(e.childNodes[pos]);
 			}
 		}
@@ -1569,9 +1466,8 @@ tink_core__$Callback_ListCell.prototype = {
 	,cancel: function() {
 		var _g = this.list;
 		if(_g != null) {
-			var v = _g;
 			this.clear();
-			HxOverrides.remove(v,this);
+			HxOverrides.remove(_g,this);
 		}
 	}
 };
@@ -1596,11 +1492,7 @@ tink_core__$Callback_CallbackList_$Impl_$.invoke = function(this1,data) {
 tink_core__$Callback_CallbackList_$Impl_$.clear = function(this1) {
 	var _g = 0;
 	var _g1 = this1.splice(0,this1.length);
-	while(_g < _g1.length) {
-		var cell = _g1[_g];
-		++_g;
-		cell.clear();
-	}
+	while(_g < _g1.length) _g1[_g++].clear();
 };
 var tink_core_TypedError = function(code,message,pos) {
 	if(code == null) {
@@ -1629,8 +1521,7 @@ var tink_core_Noise = $hxEnums["tink.core.Noise"] = { __ename__ : true, __constr
 	,Noise: {_hx_index:0,__enum__:"tink.core.Noise",toString:$estr}
 };
 var tink_core_FutureTrigger = function() {
-	var this1 = [];
-	this.list = this1;
+	this.list = [];
 };
 tink_core_FutureTrigger.__name__ = true;
 tink_core_FutureTrigger.prototype = {
@@ -1640,8 +1531,7 @@ tink_core_FutureTrigger.prototype = {
 			tink_core__$Callback_Callback_$Impl_$.invoke(callback,this.result);
 			return null;
 		} else {
-			var v = _g;
-			return tink_core__$Callback_CallbackList_$Impl_$.add(v,callback);
+			return tink_core__$Callback_CallbackList_$Impl_$.add(_g,callback);
 		}
 	}
 	,trigger: function(result) {
@@ -1690,8 +1580,7 @@ tink_state__$Observable_SimpleObservable.prototype = {
 var tink_state__$Observable_Transform_$Impl_$ = {};
 tink_state__$Observable_Transform_$Impl_$.__name__ = true;
 tink_state__$Observable_Transform_$Impl_$.plain = function(f) {
-	var this1 = f;
-	return this1;
+	return f;
 };
 var tink_state__$Observable_AutoObservable = function(comp) {
 	this.subscriptions = new haxe_ds_ObjectMap();
@@ -1699,9 +1588,7 @@ var tink_state__$Observable_AutoObservable = function(comp) {
 	tink_state__$Observable_SimpleObservable.call(this,function() {
 		_gthis.subscriptions = new haxe_ds_ObjectMap();
 		_gthis.trigger = new tink_core_FutureTrigger();
-		var this1 = new tink_core_MPair(comp.f(),_gthis.trigger);
-		var this2 = this1;
-		return this2;
+		return new tink_core_MPair(comp.f(),_gthis.trigger);
 	});
 };
 tink_state__$Observable_AutoObservable.__name__ = true;
@@ -1709,9 +1596,7 @@ tink_state__$Observable_AutoObservable.__super__ = tink_state__$Observable_Simpl
 tink_state__$Observable_AutoObservable.prototype = $extend(tink_state__$Observable_SimpleObservable.prototype,{
 	subscribe: function(change) {
 		if(this.subscriptions.h.__keys__[change.__id__] == null) {
-			var this1 = this.subscriptions;
-			var v = change.handle(($_=this.trigger,$bind($_,$_.trigger)));
-			this1.set(change,v);
+			this.subscriptions.set(change,change.handle(($_=this.trigger,$bind($_,$_.trigger))));
 		}
 	}
 });
@@ -1733,9 +1618,7 @@ tink_state__$State_SimpleState.prototype = {
 	}
 	,arm: function() {
 		this.trigger = new tink_core_FutureTrigger();
-		var this1 = new tink_core_MPair(this.value,this.trigger);
-		var this2 = this1;
-		this.next = this2;
+		this.next = new tink_core_MPair(this.value,this.trigger);
 	}
 	,set: function(value) {
 		if(this.guard != null) {

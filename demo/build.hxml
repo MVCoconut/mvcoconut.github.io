@@ -3,3 +3,4 @@
 -lib coconut.vdom
 -js bin/index.js
 -dce full
+-D analyzer-optimize
