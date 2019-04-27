@@ -13,7 +13,7 @@ class App extends View {
   
   function render()
     <button onclick={() -> count++}>
-      Clicked Here! ({count})
+      Click Here! (Clicked {count} times)
     </button>
   ;
 }

@@ -430,9 +430,9 @@ App.prototype = $extend(coconut_ui_View.prototype,{
 			return _g1;
 		})};
 		var __r1 = [];
-		__r1.push(coconut_vdom__$Child_Child_$Impl_$.ofText("Clicked Here! ("));
+		__r1.push(coconut_vdom__$Child_Child_$Impl_$.ofText("Click Here! (Clicked "));
 		__r1.push(coconut_vdom__$Child_Child_$Impl_$.ofInt(tink_state__$State_State_$Impl_$.get_value(this.__coco_count)));
-		__r1.push(coconut_vdom__$Child_Child_$Impl_$.ofText(")"));
+		__r1.push(coconut_vdom__$Child_Child_$Impl_$.ofText(" times)"));
 		__r.push(coconut_vdom__$Child_Child_$Impl_$.element("button",__ret,__r1));
 		return __r[0];
 	}
