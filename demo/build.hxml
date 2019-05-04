@@ -1,6 +1,7 @@
 -cp src
 -main App
 -lib coconut.vdom
+# -lib coconut.react-dom
 -js bin/index.js
 -dce full
 -D analyzer-optimize
